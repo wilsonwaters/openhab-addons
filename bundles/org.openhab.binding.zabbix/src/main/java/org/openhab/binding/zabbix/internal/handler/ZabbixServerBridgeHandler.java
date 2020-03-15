@@ -36,8 +36,7 @@ import org.slf4j.LoggerFactory;
  * The {@link ZabbixServerBridgeHandler} is an OpenHAB bridge which provides access to individual hosts configured
  * in Zabbix. It is responsible for listing what hosts are configured on the server.
  *
- * @author Wilson Waters
- *         Initial addition 20200212
+ * @author Wilson Waters - Initial contribution 20200212
  */
 @NonNullByDefault
 public class ZabbixServerBridgeHandler extends BaseBridgeHandler {

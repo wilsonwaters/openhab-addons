@@ -15,10 +15,12 @@ package org.openhab.binding.zabbix.internal.api;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
 import org.eclipse.smarthome.io.net.http.HttpUtil;
+import org.openhab.binding.zabbix.internal.ZabbixBindingConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,12 +37,14 @@ import com.google.gson.JsonParseException;
 public class ZabbixAPIImpl implements ZabbixAPI {
 
     private final Logger logger = LoggerFactory.getLogger(ZabbixAPIImpl.class);
-    private static final String ZABBIX_API_PATH = "/zabbix/api_jsonrpc.php";
     private static final String ZABBIX_API_CONTENTTYPE = "application/json-rpc";
     private static final int TIMEOUT_MS = 30000;
 
     private String apiUrl;
     private String hostname;
+    private String scheme = "http";
+    private int port = 80;
+    private String path = "zabbix/";
 
     private Gson gson;
 
@@ -105,7 +109,18 @@ public class ZabbixAPIImpl implements ZabbixAPI {
     @Override
     public List<ZabbixAPIHostObject> hostGet() {
         // TODO Auto-generated method stub
-        return null;
+        ArrayList<ZabbixAPIHostObject> bla = new ArrayList<ZabbixAPIHostObject>();
+        ZabbixAPIHostObject test1 = new ZabbixAPIHostObject();
+        test1.host = "test1";
+        test1.hostid = "hostId1";
+        test1.description = "bla la bla";
+        bla.add(test1);
+        ZabbixAPIHostObject test2 = new ZabbixAPIHostObject();
+        test2.host = "test2";
+        test2.hostid = "hostId2";
+        test2.description = "bla la bla";
+        bla.add(test2);
+        return bla;
     }
 
     @Override
@@ -127,7 +142,9 @@ public class ZabbixAPIImpl implements ZabbixAPI {
                 throw new ZabbixCommunicationException(
                         "hostname has not been configured. Must configure either hostname or apiUrl");
             }
-            this.apiUrl = "http://" + this.hostname + ZABBIX_API_PATH;
+            this.apiUrl = ZabbixBindingConstants.ZABBIX_API_URL.replaceFirst("%SCHEME%", "http")
+                    .replaceFirst("%IP%", this.hostname).replaceFirst("%PORT%", Integer.toString(this.port))
+                    .replaceFirst("%PATH%", this.path);
         }
         return this.apiUrl;
     }

@@ -1,11 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<thing:thing-descriptions bindingId="zabbix"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<thing:thing-descriptions bindingId="zabbix" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:thing="https://openhab.org/schemas/thing-description/v1.0.0"
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
+	
+	<bridge-type id="server" listed="true">
+        <label>Zabbix Server bloo</label>
+        <description>The Zabbix server which monitors devices</description>
+        <config-description>
+            <parameter name="hostname" type="text" required="true" groupName="network">
+                <context>network-address</context>
+                <label>Hostname</label>
+                <description>The hostname or IP address of the Zabbix server</description>
+            </parameter>
+            <parameter name="apiUrl" type="text" required="false" groupName="network">
+                <context>url</context>
+                <label>API URL</label>
+                <description><![CDATA[ (optional) <br> URL of the Zabbix server API. <br> Use this if OpenHAB can't autodetect the API URL correctly <br> <br> Default URL is: http(s)://{hostname}/zabbix/api_jsonrpc.php <br> Example: https://mon.hostname.com:8443/weirdPath/api_jsonrpc.php ]]></description>
+                <advanced>true</advanced>
+            </parameter>
+            <parameter name="refreshInterval" type="integer" min="2">
+                <label>Refresh Interval</label>
+                <description>Specifies the refresh interval in seconds.</description>
+                <default>10</default>
+            </parameter>
+        </config-description>
+    </bridge-type>
 
 	<!-- Host Thing Type -->
 	<thing-type id="host">
+	    <supported-bridge-type-refs>
+            <bridge-type-ref id="server" />
+        </supported-bridge-type-refs>
+        
 		<label>Host</label>
 		<description>A host monitored by Zabbix</description>
 
@@ -14,9 +40,9 @@
 		</channels>
 
 		<config-description>
-			<parameter name="config1" type="text" required="true">
-				<label>Sample Parameter</label>
-				<description>This is a sample text configuration parameter</description>
+			<parameter name="host" type="text" required="true">
+				<label>Host name</label>
+				<description>The Host name field as configured in Zabbix</description>
 			</parameter>
 		</config-description>
 

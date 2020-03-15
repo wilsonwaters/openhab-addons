@@ -12,6 +12,11 @@
  */
 package org.openhab.binding.zabbix.internal;
 
+import java.util.Collections;
+import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 
@@ -33,12 +38,18 @@ public class ZabbixBindingConstants {
     private static final int ZABBIX_API_MAJOR_VERSION = 4;
 
     // List of all Thing Type UIDs
-    public static final ThingTypeUID THING_TYPE_BRIDGE = new ThingTypeUID(BINDING_ID, "bridge");
+    public static final ThingTypeUID THING_TYPE_SERVER_BRIDGE = new ThingTypeUID(BINDING_ID, "server");
     public static final ThingTypeUID THING_TYPE_HOST = new ThingTypeUID(BINDING_ID, "host");
+
+    public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Collections
+            .unmodifiableSet(Stream.of(THING_TYPE_SERVER_BRIDGE, THING_TYPE_HOST).collect(Collectors.toSet()));
+
+    // List of properties
+    public static final String HOST_PROPERTY_HOSTNAME = "host";
 
     // List of all Channel ids
     public static final String CHANNEL_1 = "channel1";
 
-    // List of all Urls
-    public static final String ZABBIX_API_URL = "%SCHEME%://%IP%/zabbix/api_jsonrpc.php";
+    // Other Zabbix specific constants
+    public static final String ZABBIX_API_URL = "%SCHEME%://%IP%:%PORT%/%PATH%api_jsonrpc.php";
 }
