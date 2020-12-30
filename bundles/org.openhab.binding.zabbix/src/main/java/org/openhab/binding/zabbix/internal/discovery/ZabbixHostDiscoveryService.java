@@ -27,10 +27,8 @@ import org.eclipse.smarthome.config.discovery.DiscoveryResult;
 import org.eclipse.smarthome.config.discovery.DiscoveryResultBuilder;
 import org.eclipse.smarthome.core.thing.ThingTypeUID;
 import org.eclipse.smarthome.core.thing.ThingUID;
-import org.openhab.binding.zabbix.internal.api.ZabbixAPI;
 import org.openhab.binding.zabbix.internal.api.ZabbixAPIException;
 import org.openhab.binding.zabbix.internal.api.ZabbixAPIHostObject;
-import org.openhab.binding.zabbix.internal.api.ZabbixAPIImpl;
 import org.openhab.binding.zabbix.internal.api.ZabbixCommunicationException;
 import org.openhab.binding.zabbix.internal.handler.ZabbixServerBridgeHandler;
 import org.slf4j.Logger;
@@ -62,10 +60,9 @@ public class ZabbixHostDiscoveryService extends AbstractDiscoveryService {
     public void startScan() {
         bridgeUID = zabbixServerBridgeHandler.getThing().getUID();
 
-        ZabbixAPI api = new ZabbixAPIImpl();
         List<ZabbixAPIHostObject> hosts = null;
         try {
-            hosts = api.hostGet();
+            hosts = zabbixServerBridgeHandler.getApi().hostGet();
         } catch (ZabbixCommunicationException e) {
             logger.error("Error connecting to Zabbix server", e);
             return;
@@ -81,6 +78,7 @@ public class ZabbixHostDiscoveryService extends AbstractDiscoveryService {
 
             Map<String, Object> properties = new HashMap<>();
             properties.put(HOST_PROPERTY_HOSTNAME, host.host);
+            properties.put(HOST_PROPERTY_BRIDGE, zabbixServerBridgeHandler);
 
             DiscoveryResult discoveryResult = DiscoveryResultBuilder.create(thingUID).withThingType(thingTypeUID)
                     .withProperties(properties).withBridge(bridgeUID).withLabel(hostLabel).build();

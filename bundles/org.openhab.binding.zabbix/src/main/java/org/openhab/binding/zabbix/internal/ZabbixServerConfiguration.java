@@ -22,5 +22,7 @@ public class ZabbixServerConfiguration {
 
     public String hostname;
     public Integer refreshInterval;
+    public String username;
+    public String password;
     public String apiUrl;
 }

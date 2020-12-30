@@ -40,15 +40,18 @@ public class ZabbixBindingConstants {
     // List of all Thing Type UIDs
     public static final ThingTypeUID THING_TYPE_SERVER_BRIDGE = new ThingTypeUID(BINDING_ID, "server");
     public static final ThingTypeUID THING_TYPE_HOST = new ThingTypeUID(BINDING_ID, "host");
+    public static final ThingTypeUID THING_TYPE_ITEM = new ThingTypeUID(BINDING_ID, "item");
 
     public static final Set<ThingTypeUID> SUPPORTED_THING_TYPES = Collections
             .unmodifiableSet(Stream.of(THING_TYPE_SERVER_BRIDGE, THING_TYPE_HOST).collect(Collectors.toSet()));
 
     // List of properties
     public static final String HOST_PROPERTY_HOSTNAME = "host";
-
-    // List of all Channel ids
-    public static final String CHANNEL_1 = "channel1";
+    public static final String HOST_PROPERTY_HOSTID = "hostid";
+    public static final String HOST_PROPERTY_BRIDGE = "bridge";
+    public static final String ITEM_PROPERTY_NAME = "name";
+    public static final String ITEM_PROPERTY_ITEMID = "itemid";
+    public static final String ITEM_PROPERTY_KEY = "key_";
 
     // Other Zabbix specific constants
     public static final String ZABBIX_API_URL = "%SCHEME%://%IP%:%PORT%/%PATH%api_jsonrpc.php";

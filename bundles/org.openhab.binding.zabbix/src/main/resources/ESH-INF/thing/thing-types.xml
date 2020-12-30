@@ -4,7 +4,7 @@
 	xsi:schemaLocation="https://openhab.org/schemas/thing-description/v1.0.0 https://openhab.org/schemas/thing-description-1.0.0.xsd">
 	
 	<bridge-type id="server" listed="true">
-        <label>Zabbix Server bloo</label>
+        <label>Zabbix Server</label>
         <description>The Zabbix server which monitors devices</description>
         <config-description>
             <parameter name="hostname" type="text" required="true" groupName="network">
@@ -12,17 +12,33 @@
                 <label>Hostname</label>
                 <description>The hostname or IP address of the Zabbix server</description>
             </parameter>
-            <parameter name="apiUrl" type="text" required="false" groupName="network">
-                <context>url</context>
-                <label>API URL</label>
-                <description><![CDATA[ (optional) <br> URL of the Zabbix server API. <br> Use this if OpenHAB can't autodetect the API URL correctly <br> <br> Default URL is: http(s)://{hostname}/zabbix/api_jsonrpc.php <br> Example: https://mon.hostname.com:8443/weirdPath/api_jsonrpc.php ]]></description>
-                <advanced>true</advanced>
-            </parameter>
-            <parameter name="refreshInterval" type="integer" min="2">
+            <parameter name="refreshInterval" type="integer" min="1" groupName="network">
                 <label>Refresh Interval</label>
                 <description>Specifies the refresh interval in seconds.</description>
                 <default>10</default>
             </parameter>
+            <parameter name="username" type="text" required="true" groupName="auth">
+                <label>Username</label>
+                <description><![CDATA[The user for logging into the Zabbix server. <br/> You should create a special account in zabbix which has access to the hosts you need ]]></description>
+            </parameter>
+            <parameter name="password" type="text" required="true" groupName="auth">
+                <context>password</context>
+                <label>Password</label>
+                <description>Password used for logging into the Zabbix server</description>
+            </parameter>
+            <parameter name="apiUrl" type="text" required="false" groupName="network">
+                <context>url</context>
+                <label>API URL</label>
+                <description><![CDATA[ (optional) <br/> URL of the Zabbix server API. <br/> Use this if OpenHAB can't autodetect the API URL correctly <br/> <br/> Default URL is: http(s)://{hostname}/zabbix/api_jsonrpc.php <br> Example: https://mon.hostname.com:8443/weirdPath/api_jsonrpc.php ]]></description>
+                <advanced>true</advanced>
+            </parameter>
+            
+            <parameter-group name="network">
+                <label>Network</label>
+            </parameter-group>
+            <parameter-group name="auth">
+                <label>Authentication</label>
+            </parameter-group>
         </config-description>
     </bridge-type>
 

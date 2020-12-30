@@ -41,4 +41,10 @@ public class ZabbixAPIHostObject {
     /** (readonly) Error text if Zabbix agent is unavailable. **/
     public String error;
 
+    @Override
+    public String toString() {
+        // TODO Auto-generated method stub
+        return host + " (id=" + hostid + ")";
+    }
+
 }

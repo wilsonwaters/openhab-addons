@@ -12,8 +12,6 @@
  */
 package org.openhab.binding.zabbix.internal.handler;
 
-import static org.openhab.binding.zabbix.internal.ZabbixBindingConstants.CHANNEL_1;
-
 import org.eclipse.jdt.annotation.NonNullByDefault;
 import org.eclipse.jdt.annotation.Nullable;
 import org.eclipse.smarthome.core.thing.ChannelUID;
@@ -23,8 +21,6 @@ import org.eclipse.smarthome.core.types.Command;
 import org.eclipse.smarthome.core.types.RefreshType;
 import org.openhab.binding.zabbix.internal.ZabbixHostConfiguration;
 import org.openhab.binding.zabbix.internal.ZabbixServerConfiguration;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 /**
  * The {@link ZabbixHostHandler} is an OpenHAB Thing which provides access data from a host configured in Zabbix.
@@ -34,8 +30,6 @@ import org.slf4j.LoggerFactory;
  */
 @NonNullByDefault
 public class ZabbixHostHandler extends ZabbixBaseThingHandler {
-
-    private final Logger logger = LoggerFactory.getLogger(ZabbixHostHandler.class);
 
     private @Nullable ZabbixHostConfiguration config;
 
@@ -61,18 +55,18 @@ public class ZabbixHostHandler extends ZabbixBaseThingHandler {
 
     @Override
     public void handleCommand(ChannelUID channelUID, Command command) {
-        if (CHANNEL_1.equals(channelUID.getId())) {
-            if (command instanceof RefreshType) {
-                // TODO: handle data refresh
-            }
-
-            // TODO: handle command
-
-            // Note: if communication with thing fails for some reason,
-            // indicate that by setting the status with detail information:
-            // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
-            // "Could not control device at IP address x.x.x.x");
+        // if (CHANNEL_1.equals(channelUID.getId())) {
+        if (command instanceof RefreshType) {
+            // TODO: handle data refresh
         }
+
+        // TODO: handle command
+
+        // Note: if communication with thing fails for some reason,
+        // indicate that by setting the status with detail information:
+        // updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.COMMUNICATION_ERROR,
+        // "Could not control device at IP address x.x.x.x");
+        // }
     }
 
     @Override

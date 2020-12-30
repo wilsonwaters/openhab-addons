@@ -64,7 +64,7 @@ public abstract class ZabbixBaseThingHandler extends BaseThingHandler {
         getZabbixServerBridgeHandler().registerService(this);
     }
 
-    private synchronized ZabbixServerBridgeHandler getZabbixServerBridgeHandler() {
+    public synchronized ZabbixServerBridgeHandler getZabbixServerBridgeHandler() {
         if (this.bridgeHandler == null) {
             Bridge bridge = getBridge();
             if (bridge == null) {

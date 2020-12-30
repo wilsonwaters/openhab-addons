@@ -29,6 +29,8 @@ import org.eclipse.smarthome.core.thing.ThingStatusDetail;
 import org.eclipse.smarthome.core.thing.binding.BaseBridgeHandler;
 import org.eclipse.smarthome.core.types.Command;
 import org.openhab.binding.zabbix.internal.ZabbixServerConfiguration;
+import org.openhab.binding.zabbix.internal.api.ZabbixAPI;
+import org.openhab.binding.zabbix.internal.api.ZabbixAPIImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,7 +47,7 @@ public class ZabbixServerBridgeHandler extends BaseBridgeHandler {
     private static final int DEFAULT_REFRESH_PERIOD = 10;
     private final Set<ZabbixBaseThingHandler> services = new HashSet<>();
     private @Nullable ScheduledFuture<?> refreshJob;
-    private @Nullable ZabbixServerConfiguration config;
+    private ZabbixAPIImpl api = new ZabbixAPIImpl();
 
     public ZabbixServerBridgeHandler(Bridge bridge) {
         super(bridge);
@@ -53,6 +55,10 @@ public class ZabbixServerBridgeHandler extends BaseBridgeHandler {
 
     public void registerService(final ZabbixBaseThingHandler service) {
         this.services.add(service);
+    }
+
+    public ZabbixAPI getApi() {
+        return api;
     }
 
     @Override
@@ -73,8 +79,19 @@ public class ZabbixServerBridgeHandler extends BaseBridgeHandler {
             errorMsg = "Parameter 'refresh' must be at least 1 second";
             validConfig = false;
         }
+        if (StringUtils.trimToNull(config.username) == null) {
+            errorMsg = "Parameter 'username' is mandatory and must be configured";
+            validConfig = false;
+        }
+        if (StringUtils.trimToNull(config.password) == null) {
+            errorMsg = "Parameter 'password' is mandatory and must be configured";
+            validConfig = false;
+        }
 
         if (validConfig) {
+            api.setHostname(config.hostname);
+            api.setApiUrl(config.apiUrl);
+            api.setCredentials(config.username, config.password);
             startAutomaticRefresh(config);
         } else {
             updateStatus(ThingStatus.OFFLINE, ThingStatusDetail.CONFIGURATION_ERROR, errorMsg);

@@ -34,19 +34,6 @@ import java.util.List;
 public interface ZabbixAPI {
 
     /**
-     * Logs the specified user into zabbix and returns a API token which must be used for future communications.
-     *
-     * The user must exist on the Zabbix server and must have access to any hosts required
-     *
-     * {@link https://www.zabbix.com/documentation/current/manual/api/reference/user/login}
-     *
-     * @param username
-     * @param password
-     * @return session token
-     */
-    String userLogin(String username, String password) throws ZabbixAPIException, ZabbixCommunicationException;
-
-    /**
      * The method allows to retrieve hosts according to the given parameters.
      *
      * The initial implementation of this API call simply gets all known hosts without filtering
